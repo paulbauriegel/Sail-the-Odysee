@@ -61,7 +61,7 @@ def get_stuff():
     if running_quests<5:
         message = "You have {} free quest slot".format(5-running_quests)
         notify(message)
-    challenges_validation = challenge_bot.get_challenges(login_cookie)
+    challenges_validation = challenge_bot.get_challenges(user_name, password)
     message = "{} challenges require validation".format(len(challenges_validation))
     print(challenges_validation)
     notify(message)

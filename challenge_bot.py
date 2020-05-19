@@ -2,36 +2,43 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+import time 
 
 def check_login(driver):
     driver.get("https://odyssey.wildcodeschool.com")
     try:
-        myElem = WebDriverWait(driver, 5).until(EC.title_contains("Odyssey"))
+        WebDriverWait(driver, 5).until(EC.title_contains("Odyssey"))
     except TimeoutException:
         return False
     return driver.title == "Odyssey · My journey"
 
 def login(driver, user_name, password):
-    start_url = "https://odyssey.wildcodeschool.com/users/login?locale=en"
-    driver.get(start_url)
-    driver.find_element_by_id("user_email").send_keys(user_name)
-    driver.find_element_by_id("user_password").send_keys(password)
-    driver.find_element_by_name("commit").click()
+    """ We got alread redirected here: "https://login.wildcodeschool.com/" """
+    driver.find_element_by_id("login-email").send_keys(user_name)
+    driver.find_element_by_id("login-password").send_keys(password)
+    driver.find_element_by_id("login-submit").click()
 
-def get_challenges(login_cookie, debug = False, user_name=None, password=None):
+def get_challenges(user_name, password, debug = False):
 
     chrome_options = Options()
     chrome_options.add_argument('log-level=3')
     chrome_options.add_argument("user-data-dir=selenium") 
     if not debug:
-        chrome_options.add_argument("--headless")
+        pass
+        #chrome_options.add_argument("--headless")
     with webdriver.Chrome(options=chrome_options) as driver:
 
         # Login
         if not check_login(driver):
+            print("try login")
             login(driver, user_name, password)
 
+        try:
+            WebDriverWait(driver, 5).until(EC.title_is("Odyssey · My journey"))
+        except TimeoutException:
+            return []
         driver.get("https://odyssey.wildcodeschool.com/corrections")
         pages = driver.find_elements_by_css_selector("div.ui.pagination.menu a")[-1].get_attribute('href').rsplit('=')[1]
         print(pages)
