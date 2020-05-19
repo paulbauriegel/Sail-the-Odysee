@@ -5,7 +5,14 @@ from email.mime.text import MIMEText
 import threading
 from threading import Thread
 import datetime
-from win10toast import ToastNotifier
+import platform
+
+toast_caption = "New Quest Slots available"
+if platform.system() == 'Windows':
+    from win10toast import ToastNotifier
+elif platform.system() == 'Linux':
+    from gi.repository import Notify
+    Notify.init(toast_caption)
 
 url = "https://odyssey.wildcodeschool.com/users/login?locale=en"
 toaster = ToastNotifier()
@@ -33,11 +40,16 @@ def get_stuff():
     print(str(datetime.datetime.now()) + ": " + quest_string)
 
     if int(quest_string)<5:
-        toaster.show_toast("Free Quest Slots",
-            "You have {} free quest slot".format(5-int(quest_string)),
-            icon_path=None,
-            duration=5)
-
+        message = "You have {} free quest slot".format(5-int(quest_string))
+        if platform.system() == 'Windows':
+            toaster.show_toast(toast_caption,
+                message,
+                icon_path=None,
+                duration=10)
+        elif platform.system() == 'Linux':
+            Notify.Notification.new(toast_caption, 
+                message, 
+                "dialog-information").show()
 get_stuff()
 
 from threading import Event, Thread
