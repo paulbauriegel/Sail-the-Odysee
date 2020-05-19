@@ -26,8 +26,7 @@ def get_challenges(user_name, password, debug = False):
     chrome_options.add_argument('log-level=3')
     chrome_options.add_argument("user-data-dir=selenium") 
     if not debug:
-        pass
-        #chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--headless")
     with webdriver.Chrome(options=chrome_options) as driver:
 
         # Login
