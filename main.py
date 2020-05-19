@@ -14,6 +14,8 @@ if platform.system() == 'Windows':
     from win10toast import ToastNotifier
     toaster = ToastNotifier()
 elif platform.system() == 'Linux':
+    import gi
+    gi.require_version('Notify', '0.7')
     from gi.repository import Notify
     Notify.init(toast_caption)
 
