@@ -63,7 +63,7 @@ def get_challenges(user_name, password, debug = False):
     return uncommented_links
 
 if __name__ == "__main__":
-    user_name = "paul.bauriegel@web.de"
+    user_name = "<email>"
     password = input("Password: ")
     login_cookie = "pENG5hhzarBARWHLOgJ%2BW%2F6E2%2FxCHz88L3u9kncId0cKIk%2FMKqOMTd6O6bJgUZUnsi36bukdNkeis0LUHg%2Bf3h3dw19UD8VoFvEEKXutNr5ba75l2LbdK6rRhpDLgUuU%2Bl47gJvUPgLW9FiHPkU%3D--Edp%2BKKa1XHUtd3OR--VcyRvfhVS9A1X%2FSwxkEGAA%3D%3D"
     get_challenges(login_cookie, True, user_name, password)
