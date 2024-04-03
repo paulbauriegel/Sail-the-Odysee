@@ -19,7 +19,7 @@ elif platform.system() == 'Linux':
     from gi.repository import Notify
     Notify.init(toast_caption)
 
-user_name = "paul.bauriegel@web.de"
+user_name = "<email>"
 password = input("Enter your Password: ")
 
 def get_quests(user_name, password):
